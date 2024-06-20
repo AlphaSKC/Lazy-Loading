@@ -1,5 +1,5 @@
 import { Box, Typography, Grid, Card, CardMedia, Divider, CardContent, Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
@@ -17,9 +17,14 @@ interface PokemonDetalles {
 
 export default function ListaPokemones() {
     const [pokemones, setPokemones] = useState<PokemonDetalles[]>([]);
-    const [nextPage, setNextPage] = useState<string | null>('https://pokeapi.co/api/v2/pokemon/?limit=30&offset=0');
+    const [nextPage, setNextPage] = useState<string | null>('https://pokeapi.co/api/v2/pokemon/?limit=10');
+    const isMounted = useRef(false);
+
     useEffect(() => {
-        fetchPokemon(); // eslint-disable-next-line
+        if (!isMounted.current) {
+            fetchPokemon();
+            isMounted.current = true;
+        }
     }, []); 
 
     const fetchPokemon = async () => {
@@ -70,7 +75,7 @@ export default function ListaPokemones() {
                     WebkitTextFillColor: 'transparent',
                 }}
             >
-                Lista de Pokemones
+                Pokedex
             </Typography>
             <Grid container spacing={3} sx={{ justifyContent: 'center' }}>
                 {pokemones.map((pokemon, index) => (
