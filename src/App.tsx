@@ -4,6 +4,9 @@ import './App.css';
 import Cronometro from './components/Cronometro';
 import ImagePrevisualizar from './components/ImagePrevisualizar';
 import CalculadoraGastos from './components/CalculadoraGastos';
+import TableMarcas from './components/Admin/Brands/TableMarcas';
+import TableCategorias from './components/Admin/Categories/TableCategorias';
+import TableModelos from './components/Admin/Models/TableModelos';
 // const ListaPokemones = lazy(() => import('./components/ListaPokemones'));
 const Contador = lazy(() => import('./components/Contador'));
 
@@ -15,8 +18,11 @@ function App() {
           {/* <Cronometro />
           <ImagePrevisualizar/>
           <Contador /> */}
-          <CalculadoraGastos></CalculadoraGastos>
+          {/* <CalculadoraGastos></CalculadoraGastos> */}
           {/* <ListaPokemones /> */}
+          {/* <TableMarcas></TableMarcas> */}
+          {/* <TableCategorias></TableCategorias> */}
+          <TableModelos></TableModelos>
         </Suspense>
         {/* <TareasContainer/> */}
       </header>
