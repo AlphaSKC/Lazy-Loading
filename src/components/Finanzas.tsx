@@ -27,6 +27,9 @@ const CustomTextField = styled(TextField)({
     '& .MuiInputAdornment-root': {
         color: '#13072E',
     },
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+        borderColor: '#d65fe8',
+    },
 });
 
 export default function Finanzas() {
@@ -46,6 +49,24 @@ export default function Finanzas() {
         setFlujos([...flujos, 0]);
     };
 
+    const handleRemoveFlujo = () => {
+        setFlujos(flujos.slice(0, -1));
+    };
+
+    const handleReset = () => {
+        setInversionInicial(0);
+        setFlujos([]);
+        setInflacion(0);
+        setRentabilidadTotal(0);
+        setRentabilidadFlujoMedio(0);
+        setRentabilidadInflacion(0);
+        setPayback(0);
+        setVPN(0);
+        setTIR(0);
+        setCalculado(false);
+    };
+
+
     const handleChangeFlujo = (index: number, value: number) => {
         const newFlujos = [...flujos];
         newFlujos[index] = value;
@@ -62,7 +83,7 @@ export default function Finanzas() {
         const payback = calcularPayback(inversionInicial, flujos);
         const vpn = calcularVPN(inversionInicial, flujos, inflacion / 100);
         const tir = calcularTIR(inversionInicial, flujos);
-        
+
         setPayback(payback);
         setVPN(vpn);
         setTIR(tir);
@@ -74,12 +95,12 @@ export default function Finanzas() {
         return (flujoTotal / inversion) * 100;
     };
 
-    const calcularRentabilidadFlujoMedio = (flujos: number[], inversion:number): number => {
+    const calcularRentabilidadFlujoMedio = (flujos: number[], inversion: number): number => {
         const flujoMedio = flujos.reduce((acc, flujo) => acc + flujo, 0) / flujos.length;
         return (flujoMedio / inversion) * 100;
     }
 
-    const calcularRentabilidadInflacion = (rentabilidad:number, inflacion: number): number => {
+    const calcularRentabilidadInflacion = (rentabilidad: number, inflacion: number): number => {
         const derecha = inflacion * (1 + (rentabilidad));
         return ((rentabilidad) + derecha) * 100;
     }
@@ -110,7 +131,7 @@ export default function Finanzas() {
     return (
         <Box sx={{
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row' },
             gap: '20px',
             alignItems: 'center',
             justifyContent: 'center',
@@ -180,15 +201,62 @@ export default function Finanzas() {
                         ))}
                     </Grid>
                 </Box>
-                <Button variant="contained" sx={{
-                    backgroundColor: '#13072E',
-                    color: '#FFF',
-                    '&:hover': {
-                        backgroundColor: '#3F2182',
-                    },
-                }} onClick={handleAddFlujo}>
-                    Añadir Flujo
-                </Button>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} sm={12} md={4} lg={4}>
+                        <Button variant="contained" sx={{
+                            backgroundColor: '#00cc00',
+                            color: '#FFF',
+                            '&:hover': {
+                                backgroundColor: '#00b359',
+                            },
+                        }} onClick={handleAddFlujo}>
+                            Añadir Flujo
+                        </Button>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={4} lg={4}>
+                        <Button variant="contained" sx={{
+                            backgroundColor: '#0099ff',
+                            color: '#FFF',
+                            '&:hover': {
+                                backgroundColor: '#006bb3',
+                            },
+                            '&:disabled': {
+                                backgroundColor: '#CCC',
+                                color: '#000',
+                                cursor: 'not-allowed',
+                            },
+                            '&:hover:disabled': {
+                                backgroundColor: '#CCC',
+                                color: '#000',
+                                cursor: 'not-allowed',
+                            }
+                        }} onClick={handleReset} disabled={flujos.length === 0 && inversionInicial === 0 && inflacion === 0}>
+                            Restaurar Todo
+                        </Button>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={4} lg={4}>
+                        <Button variant="contained" sx={{
+                            backgroundColor: '#ff0000',
+                            color: '#FFF',
+                            '&:hover': {
+                                backgroundColor: '#cc0000',
+                            },
+                            '&:disabled': {
+                                backgroundColor: '#CCC',
+                                color: '#000',
+                                cursor: 'not-allowed',
+                            },
+                            '&:hover:disabled': {
+                                backgroundColor: '#CCC',
+                                color: '#000',
+                                cursor: 'not-allowed',
+                            }
+                        }} onClick={handleRemoveFlujo} disabled={flujos.length === 0}>
+                            Quitar Flujo
+                        </Button>
+                    </Grid>
+
+                </Grid>
                 <Button disabled={!(flujos.length > 0)} variant="contained" sx={{
                     backgroundColor: '#13072E',
                     color: '#FFF',
@@ -278,7 +346,7 @@ export default function Finanzas() {
                             Payback:
                         </Typography>
                         <Typography variant="h5" sx={{ color: '#13072E' }}>
-                            {payback}
+                            {payback.toFixed(2)} años
                         </Typography>
                     </Box>
                     <Box sx={{
@@ -293,7 +361,7 @@ export default function Finanzas() {
                             Rentabilidad Inflación:
                         </Typography>
                         <Typography variant="h5" sx={{ color: '#13072E' }}>
-                            {rentabilidadInflacion} %
+                            {rentabilidadInflacion.toFixed(4)} %
                         </Typography>
                     </Box>
                     <Box sx={{
@@ -308,7 +376,7 @@ export default function Finanzas() {
                             VPN:
                         </Typography>
                         <Typography variant="h5" sx={{ color: '#13072E' }}>
-                            {vpn}
+                            {vpn.toFixed(4)}
                         </Typography>
                     </Box>
                     <Box sx={{
@@ -323,7 +391,7 @@ export default function Finanzas() {
                             TIR:
                         </Typography>
                         <Typography variant="h5" sx={{ color: '#13072E' }}>
-                            {tir} %
+                            {tir.toFixed(4)} %
                         </Typography>
                     </Box>
                 </Box>
