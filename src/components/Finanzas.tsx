@@ -85,14 +85,6 @@ export default function Finanzas() {
     }
 
     const calcularPayback = (inversionInicial: number, flujos: number[]): number => {
-        // let acumulado = 0;
-        // for (let i = 0; i < flujos.length; i++) {
-        //     acumulado += flujos[i];
-        //     if (acumulado >= inversionInicial) {
-        //         return i + 1;
-        //     }
-        // }
-        // return -1;
         const F = flujos.reduce((acc, flujo) => acc + flujo, 0) / flujos.length;
         return inversionInicial / F;
     };
@@ -112,7 +104,7 @@ export default function Finanzas() {
             tir = vpn > 0 ? tir + delta : tir - delta;
             delta /= 2;
         }
-        return tir;
+        return tir * 100;
     };
 
     return (
@@ -331,7 +323,7 @@ export default function Finanzas() {
                             TIR:
                         </Typography>
                         <Typography variant="h5" sx={{ color: '#13072E' }}>
-                            {tir}
+                            {tir} %
                         </Typography>
                     </Box>
                 </Box>
