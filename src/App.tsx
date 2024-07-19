@@ -7,6 +7,7 @@ import CalculadoraGastos from './components/CalculadoraGastos';
 import TableMarcas from './components/Admin/Brands/TableMarcas';
 import TableCategorias from './components/Admin/Categories/TableCategorias';
 import TableModelos from './components/Admin/Models/TableModelos';
+import Finanzas from './components/Finanzas';
 // const ListaPokemones = lazy(() => import('./components/ListaPokemones'));
 const Contador = lazy(() => import('./components/Contador'));
 
@@ -22,7 +23,8 @@ function App() {
           {/* <ListaPokemones /> */}
           {/* <TableMarcas></TableMarcas> */}
           {/* <TableCategorias></TableCategorias> */}
-          <TableModelos></TableModelos>
+          {/* <TableModelos></TableModelos> */}
+          <Finanzas></Finanzas>
         </Suspense>
         {/* <TareasContainer/> */}
       </header>
